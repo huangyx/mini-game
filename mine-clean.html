@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>扫雷</title>
+</head>
+
+<body>
+    <canvas id="gameWarp" width="200" height="200" style="border:1px solid #d3d3d3;"></canvas>
+    <script type="text/javascript">
+        const blockUnitWidth = 20
+        const blockUnitHeigh = 20
+        let gameWarp = document.getElementById("gameWarp")
+        const context = gameWarp.getContext('2d')
+        // 绘制矩形，参数为 左上角的 x , y 坐标，矩形的宽度和长度
+        let blocks = []
+        for (let x = 0; x <= 9; x++) {
+            blocks[x] = []
+            for (let y = 0; y <= 9; y++) {
+                blocks[x][y] = { 'x': x * blockUnitWidth, 'y': y * blockUnitHeigh }
+                context.strokeRect(x * blockUnitWidth, y * blockUnitHeigh, blockUnitWidth, blockUnitHeigh)
+            }
+        }
+        gameWarp.addEventListener('click', function (e) {
+            // 计算点击位置在 canvas 画布中的坐标
+            let offsetX = e.pageX - gameWarp.offsetLeft
+            let offsetY = e.pageY - gameWarp.offsetTop
+            console.log(offsetX)
+            console.log(offsetY)
+            // 计算所点击方块的坐标
+            let x = Math.floor(offsetX / blockUnitWidth)
+            let y = Math.floor(offsetY / blockUnitHeigh)
+            let block = blocks[x][y]
+            console.log(blocks[x][y])
+            // context.fillStyle = 'red'
+            // context.fillRect(block['x'], block['y'], blockUnitWidth, blockUnitHeigh)
+            fillNumIntoBlcokCenter(2, block)
+        })
+
+        /**
+        * 在小方块中心填充数字
+        */
+        function fillNumIntoBlcokCenter(num, block) {
+            context.font = '20px'
+            context.textAlign = 'center'
+            context.textBaseline = "middle";
+            // context.strokeRect(block['x'], block['y'], blockUnitWidth, blockUnitHeigh)
+            context.fillText(num, block['x'] + blockUnitWidth / 2, block['y'] + blockUnitHeigh / 2)
+        }
+    </script>
+</body>
+
+</html>
